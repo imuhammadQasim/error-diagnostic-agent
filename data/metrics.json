@@ -1,0 +1,116 @@
+{
+  "payment-api": {
+    "error_rate_percent": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 0.1 },
+      { "timestamp": "2026-09-09T10:05:00Z", "value": 0.1 },
+      { "timestamp": "2026-09-09T10:10:00Z", "value": 0.2 },
+      { "timestamp": "2026-09-09T10:15:00Z", "value": 0.2 },
+      { "timestamp": "2026-09-09T10:20:00Z", "value": 0.3 },
+      { "timestamp": "2026-09-09T10:22:00Z", "value": 0.5 },
+      { "timestamp": "2026-09-09T10:25:00Z", "value": 2.1 },
+      { "timestamp": "2026-09-09T10:27:00Z", "value": 18.4 },
+      { "timestamp": "2026-09-09T10:29:00Z", "value": 35.2 },
+      { "timestamp": "2026-09-09T10:30:00Z", "value": 42.6 },
+      { "timestamp": "2026-09-09T10:32:00Z", "value": 44.1 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 43.8 }
+    ],
+    "latency_p95_ms": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 180 },
+      { "timestamp": "2026-09-09T10:05:00Z", "value": 176 },
+      { "timestamp": "2026-09-09T10:10:00Z", "value": 184 },
+      { "timestamp": "2026-09-09T10:15:00Z", "value": 190 },
+      { "timestamp": "2026-09-09T10:20:00Z", "value": 240 },
+      { "timestamp": "2026-09-09T10:22:00Z", "value": 320 },
+      { "timestamp": "2026-09-09T10:25:00Z", "value": 4200 },
+      { "timestamp": "2026-09-09T10:27:00Z", "value": 18500 },
+      { "timestamp": "2026-09-09T10:29:00Z", "value": 29800 },
+      { "timestamp": "2026-09-09T10:30:00Z", "value": 30000 },
+      { "timestamp": "2026-09-09T10:32:00Z", "value": 30000 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 30000 }
+    ],
+    "request_count_per_minute": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 122 },
+      { "timestamp": "2026-09-09T10:05:00Z", "value": 118 },
+      { "timestamp": "2026-09-09T10:10:00Z", "value": 130 },
+      { "timestamp": "2026-09-09T10:15:00Z", "value": 126 },
+      { "timestamp": "2026-09-09T10:20:00Z", "value": 135 },
+      { "timestamp": "2026-09-09T10:22:00Z", "value": 140 },
+      { "timestamp": "2026-09-09T10:25:00Z", "value": 190 },
+      { "timestamp": "2026-09-09T10:27:00Z", "value": 310 },
+      { "timestamp": "2026-09-09T10:29:00Z", "value": 380 },
+      { "timestamp": "2026-09-09T10:30:00Z", "value": 410 },
+      { "timestamp": "2026-09-09T10:32:00Z", "value": 405 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 398 }
+    ],
+    "cpu_percent": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 34 },
+      { "timestamp": "2026-09-09T10:10:00Z", "value": 36 },
+      { "timestamp": "2026-09-09T10:20:00Z", "value": 39 },
+      { "timestamp": "2026-09-09T10:25:00Z", "value": 44 },
+      { "timestamp": "2026-09-09T10:29:00Z", "value": 47 },
+      { "timestamp": "2026-09-09T10:32:00Z", "value": 48 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 46 }
+    ],
+    "memory_percent": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 41 },
+      { "timestamp": "2026-09-09T10:10:00Z", "value": 42 },
+      { "timestamp": "2026-09-09T10:20:00Z", "value": 44 },
+      { "timestamp": "2026-09-09T10:25:00Z", "value": 47 },
+      { "timestamp": "2026-09-09T10:29:00Z", "value": 51 },
+      { "timestamp": "2026-09-09T10:32:00Z", "value": 52 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 51 }
+    ]
+  },
+  "notification-service": {
+    "error_rate_percent": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 0.2 },
+      { "timestamp": "2026-09-09T10:15:00Z", "value": 0.1 },
+      { "timestamp": "2026-09-09T10:22:00Z", "value": 0.2 },
+      { "timestamp": "2026-09-09T10:27:00Z", "value": 0.3 },
+      { "timestamp": "2026-09-09T10:30:00Z", "value": 0.2 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 0.2 }
+    ],
+    "latency_p95_ms": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 95 },
+      { "timestamp": "2026-09-09T10:15:00Z", "value": 92 },
+      { "timestamp": "2026-09-09T10:22:00Z", "value": 97 },
+      { "timestamp": "2026-09-09T10:27:00Z", "value": 101 },
+      { "timestamp": "2026-09-09T10:30:00Z", "value": 94 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 96 }
+    ],
+    "request_count_per_minute": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 58 },
+      { "timestamp": "2026-09-09T10:15:00Z", "value": 61 },
+      { "timestamp": "2026-09-09T10:22:00Z", "value": 60 },
+      { "timestamp": "2026-09-09T10:27:00Z", "value": 63 },
+      { "timestamp": "2026-09-09T10:30:00Z", "value": 59 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 60 }
+    ]
+  },
+  "checkout-api": {
+    "error_rate_percent": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 0.3 },
+      { "timestamp": "2026-09-09T10:15:00Z", "value": 0.2 },
+      { "timestamp": "2026-09-09T10:22:00Z", "value": 0.3 },
+      { "timestamp": "2026-09-09T10:27:00Z", "value": 0.4 },
+      { "timestamp": "2026-09-09T10:30:00Z", "value": 0.3 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 0.3 }
+    ],
+    "latency_p95_ms": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 205 },
+      { "timestamp": "2026-09-09T10:15:00Z", "value": 198 },
+      { "timestamp": "2026-09-09T10:22:00Z", "value": 211 },
+      { "timestamp": "2026-09-09T10:27:00Z", "value": 215 },
+      { "timestamp": "2026-09-09T10:30:00Z", "value": 208 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 210 }
+    ],
+    "request_count_per_minute": [
+      { "timestamp": "2026-09-09T10:00:00Z", "value": 210 },
+      { "timestamp": "2026-09-09T10:15:00Z", "value": 205 },
+      { "timestamp": "2026-09-09T10:22:00Z", "value": 218 },
+      { "timestamp": "2026-09-09T10:27:00Z", "value": 220 },
+      { "timestamp": "2026-09-09T10:30:00Z", "value": 212 },
+      { "timestamp": "2026-09-09T10:35:00Z", "value": 209 }
+    ]
+  }
+}

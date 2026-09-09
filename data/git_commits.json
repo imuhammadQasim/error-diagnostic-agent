@@ -1,0 +1,47 @@
+[
+  {
+    "sha": "abc123f",
+    "service": "payment-api",
+    "author": "R. Kapoor",
+    "timestamp": "2026-09-09T10:05:47Z",
+    "message": "Add retry logic with exponential backoff for gateway timeouts",
+    "pr_number": 482,
+    "files_changed": ["payment_service/gateway_client.py", "payment_service/config.py"]
+  },
+  {
+    "sha": "5b8e0aa",
+    "service": "payment-api",
+    "author": "R. Kapoor",
+    "timestamp": "2026-09-05T14:22:00Z",
+    "message": "Add unit tests for gateway timeout handling",
+    "pr_number": 471,
+    "files_changed": ["tests/test_gateway_client.py"]
+  },
+  {
+    "sha": "9f1c2ab",
+    "service": "payment-api",
+    "author": "S. Alvarez",
+    "timestamp": "2026-09-06T08:40:00Z",
+    "message": "Bump payment-api to v2.4.0 - minor logging improvements",
+    "pr_number": 474,
+    "files_changed": ["payment_service/logger.py"]
+  },
+  {
+    "sha": "77e410d",
+    "service": "notification-service",
+    "author": "J. Chen",
+    "timestamp": "2026-09-09T09:50:00Z",
+    "message": "Update email template rendering",
+    "pr_number": 483,
+    "files_changed": ["notification_service/templates.py"]
+  },
+  {
+    "sha": "c02f9de",
+    "service": "checkout-api",
+    "author": "M. Diallo",
+    "timestamp": "2026-09-04T11:00:00Z",
+    "message": "Refactor checkout session validation",
+    "pr_number": 468,
+    "files_changed": ["checkout_service/validation.py"]
+  }
+]

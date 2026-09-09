@@ -1,0 +1,57 @@
+[
+  {
+    "trace_id": "trace-6601",
+    "service": "payment-api",
+    "endpoint": "/api/payments/charge",
+    "timestamp": "2026-09-09T10:10:04Z",
+    "status_code": 200,
+    "total_duration_ms": 142,
+    "spans": [
+      { "name": "http.request", "duration_ms": 142 },
+      { "name": "db.acquire_connection", "duration_ms": 4 },
+      { "name": "db.query.insert_payment", "duration_ms": 25 },
+      { "name": "gateway.call.stripe", "duration_ms": 60 }
+    ]
+  },
+  {
+    "trace_id": "trace-6642",
+    "service": "payment-api",
+    "endpoint": "/api/payments/charge",
+    "timestamp": "2026-09-09T10:24:12Z",
+    "status_code": 200,
+    "total_duration_ms": 3800,
+    "spans": [
+      { "name": "http.request", "duration_ms": 3800 },
+      { "name": "db.acquire_connection", "duration_ms": 3600, "note": "waiting for a free pool slot" },
+      { "name": "db.query.insert_payment", "duration_ms": 40 },
+      { "name": "gateway.call.stripe", "duration_ms": 58 }
+    ]
+  },
+  {
+    "trace_id": "trace-6659",
+    "service": "payment-api",
+    "endpoint": "/api/payments/charge",
+    "timestamp": "2026-09-09T10:29:02Z",
+    "status_code": 500,
+    "total_duration_ms": 30012,
+    "spans": [
+      { "name": "http.request", "duration_ms": 30012 },
+      { "name": "db.acquire_connection", "duration_ms": 30000, "note": "timed out waiting for a free pool slot; no connection acquired" }
+    ],
+    "error": "PoolTimeoutError: could not acquire connection after 30000ms"
+  },
+  {
+    "trace_id": "trace-6612",
+    "service": "notification-service",
+    "endpoint": "/api/notifications/send",
+    "timestamp": "2026-09-09T10:20:47Z",
+    "status_code": 200,
+    "total_duration_ms": 95,
+    "spans": [
+      { "name": "http.request", "duration_ms": 95 },
+      { "name": "db.acquire_connection", "duration_ms": 3 },
+      { "name": "db.query.insert_notification", "duration_ms": 18 },
+      { "name": "smtp.send", "duration_ms": 62 }
+    ]
+  }
+]

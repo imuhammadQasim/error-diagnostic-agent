@@ -1,0 +1,36 @@
+{
+  "postgres-payments": {
+    "used_by_service": "payment-api",
+    "max_connections": 20,
+    "snapshots": [
+      { "timestamp": "2026-09-09T10:00:00Z", "active_connections": 8,  "idle_connections": 12, "waiting_requests": 0,  "avg_wait_time_ms": 5 },
+      { "timestamp": "2026-09-09T10:15:00Z", "active_connections": 9,  "idle_connections": 11, "waiting_requests": 0,  "avg_wait_time_ms": 6 },
+      { "timestamp": "2026-09-09T10:20:00Z", "active_connections": 14, "idle_connections": 6,  "waiting_requests": 0,  "avg_wait_time_ms": 12 },
+      { "timestamp": "2026-09-09T10:22:00Z", "active_connections": 16, "idle_connections": 4,  "waiting_requests": 2,  "avg_wait_time_ms": 340 },
+      { "timestamp": "2026-09-09T10:24:00Z", "active_connections": 18, "idle_connections": 2,  "waiting_requests": 9,  "avg_wait_time_ms": 2100 },
+      { "timestamp": "2026-09-09T10:26:00Z", "active_connections": 20, "idle_connections": 0,  "waiting_requests": 24, "avg_wait_time_ms": 15400 },
+      { "timestamp": "2026-09-09T10:28:00Z", "active_connections": 20, "idle_connections": 0,  "waiting_requests": 41, "avg_wait_time_ms": 29800 },
+      { "timestamp": "2026-09-09T10:30:00Z", "active_connections": 20, "idle_connections": 0,  "waiting_requests": 58, "avg_wait_time_ms": 30000 },
+      { "timestamp": "2026-09-09T10:32:00Z", "active_connections": 20, "idle_connections": 0,  "waiting_requests": 63, "avg_wait_time_ms": 30000 }
+    ],
+    "slow_queries": [
+      {
+        "timestamp": "2026-09-09T10:26:19Z",
+        "query": "INSERT INTO payments (id, order_id, amount, status) VALUES ($1, $2, $3, $4)",
+        "duration_ms": 15400,
+        "note": "Query itself is fast; duration reflects time spent waiting to acquire a pooled connection, not query execution."
+      }
+    ]
+  },
+  "postgres-notifications": {
+    "used_by_service": "notification-service",
+    "max_connections": 10,
+    "snapshots": [
+      { "timestamp": "2026-09-09T10:00:00Z", "active_connections": 2, "idle_connections": 8, "waiting_requests": 0, "avg_wait_time_ms": 4 },
+      { "timestamp": "2026-09-09T10:15:00Z", "active_connections": 3, "idle_connections": 7, "waiting_requests": 0, "avg_wait_time_ms": 4 },
+      { "timestamp": "2026-09-09T10:22:00Z", "active_connections": 3, "idle_connections": 7, "waiting_requests": 0, "avg_wait_time_ms": 5 },
+      { "timestamp": "2026-09-09T10:30:00Z", "active_connections": 2, "idle_connections": 8, "waiting_requests": 0, "avg_wait_time_ms": 4 }
+    ],
+    "slow_queries": []
+  }
+}

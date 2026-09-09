@@ -1,0 +1,22 @@
+# Versions verified against PyPI on 2026-09-09 (pinned exactly, on purpose,
+# for a learning project: reproducible installs beat "latest" while you're
+# still learning the APIs). Bump deliberately, not accidentally.
+
+# --- Web framework ---
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+
+# --- Agent framework (LangChain 1.x current API: langchain.agents.create_agent) ---
+langchain==1.4.0
+langchain-anthropic==1.7.1
+
+# --- Observability ---
+langsmith==0.12.2
+
+# --- Config & data validation ---
+pydantic==2.13.5
+pydantic-settings==2.15.0
+python-dotenv==1.2.3
+
+# --- HTTP client, for the real external API tools ---
+httpx==0.28.1

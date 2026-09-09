@@ -1,0 +1,32 @@
+[
+  {
+    "id": "dep-1001",
+    "service": "payment-api",
+    "version": "v2.4.0",
+    "commit_sha": "9f1c2ab",
+    "deployed_at": "2026-09-06T09:00:00Z",
+    "deployed_by": "ci-cd-bot",
+    "status": "success",
+    "changelog": "Minor logging improvements"
+  },
+  {
+    "id": "dep-1002",
+    "service": "payment-api",
+    "version": "v2.4.1",
+    "commit_sha": "abc123f",
+    "deployed_at": "2026-09-09T10:15:32Z",
+    "deployed_by": "ci-cd-bot",
+    "status": "success",
+    "changelog": "Add retry logic with exponential backoff for gateway timeouts"
+  },
+  {
+    "id": "dep-1003",
+    "service": "notification-service",
+    "version": "v1.8.0",
+    "commit_sha": "77e410d",
+    "deployed_at": "2026-09-09T10:18:03Z",
+    "deployed_by": "ci-cd-bot",
+    "status": "success",
+    "changelog": "Update email template rendering"
+  }
+]
