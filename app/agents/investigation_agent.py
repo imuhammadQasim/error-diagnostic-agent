@@ -3,9 +3,11 @@ from functools import lru_cache
 from langchain.agents import create_agent
 from langchain.agents.structured_output import ToolStrategy
 from langchain_anthropic import ChatAnthropic
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 from langgraph.graph.state import CompiledStateGraph
 
-from app.config import get_settings
+from app.config import Settings, get_settings
 from app.schemas import IncidentReport
 from app.tools import ALL_TOOLS
 
@@ -48,6 +50,37 @@ Investigation rules, in order of importance:
 When you are done, respond with the structured incident report."""
 
 
+def build_model(settings: Settings):
+    """Construct the chat model for the configured LLM_PROVIDER.
+
+    Supports Anthropic, Groq, and Gemini so the agent can be tried against
+    free-tier keys (Groq, Gemini) without touching any other code - just
+    set LLM_PROVIDER and the matching *_API_KEY in .env.
+    """
+    if settings.llm_provider == "anthropic":
+        return ChatAnthropic(
+            model=settings.anthropic_model,
+            temperature=settings.llm_temperature,
+            anthropic_api_key=settings.anthropic_api_key,
+            max_tokens=4096,
+        )
+    if settings.llm_provider == "groq":
+        return ChatGroq(
+            model=settings.groq_model,
+            temperature=settings.llm_temperature,
+            api_key=settings.groq_api_key,
+            max_tokens=4096,
+        )
+    if settings.llm_provider == "gemini":
+        return ChatGoogleGenerativeAI(
+            model=settings.gemini_model,
+            temperature=settings.llm_temperature,
+            google_api_key=settings.gemini_api_key,
+            max_output_tokens=4096,
+        )
+    raise ValueError(f"Unknown LLM_PROVIDER: {settings.llm_provider!r}")
+
+
 def build_agent() -> CompiledStateGraph:
     """Construct the tool-using investigation agent.
 
@@ -59,12 +92,7 @@ def build_agent() -> CompiledStateGraph:
     the LLM to correct itself, not a silent bad response.
     """
     settings = get_settings()
-    model = ChatAnthropic(
-        model=settings.anthropic_model,
-        temperature=settings.llm_temperature,
-        anthropic_api_key=settings.anthropic_api_key,
-        max_tokens=4096,
-    )
+    model = build_model(settings)
     return create_agent(
         model=model,
         tools=ALL_TOOLS,

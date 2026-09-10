@@ -1,4 +1,5 @@
-import anthropic
+from typing import Callable
+
 from langgraph.errors import GraphRecursionError
 
 from app.agents import get_agent
@@ -15,11 +16,55 @@ class InvestigationTimedOutError(IncidentInvestigationError):
 
 
 class LLMProviderError(IncidentInvestigationError):
-    """The call to Anthropic itself failed (auth, rate limit, connectivity, ...)."""
+    """The call to the configured LLM provider itself failed (auth, rate limit, connectivity, ...)."""
 
 
 class InvalidReportError(IncidentInvestigationError):
     """The agent finished but did not produce a schema-valid incident report."""
+
+
+def _provider_error_handlers(provider: str) -> list[tuple[Callable[[Exception], bool], str]]:
+    """Map the active provider SDK's exceptions to a user-facing message.
+
+    Each provider (Anthropic, Groq, Gemini) raises its own exception
+    hierarchy, so this is looked up based on the active LLM_PROVIDER rather
+    than imported unconditionally - keeps a missing provider package from
+    breaking the other two. List order matters: more specific predicates
+    must come before the broad catch-all for that provider, since
+    `investigate()` below raises on the first match.
+    """
+    if provider == "anthropic":
+        import anthropic
+
+        return [
+            (lambda exc: isinstance(exc, anthropic.AuthenticationError), "Anthropic rejected the API key - check ANTHROPIC_API_KEY."),
+            (lambda exc: isinstance(exc, anthropic.RateLimitError), "Anthropic rate limit exceeded - try again shortly."),
+            (lambda exc: isinstance(exc, anthropic.APIConnectionError), "Could not reach the Anthropic API."),
+            (lambda exc: isinstance(exc, anthropic.APIStatusError), "Anthropic API error: {exc}"),
+        ]
+    if provider == "groq":
+        import groq
+
+        return [
+            (lambda exc: isinstance(exc, groq.AuthenticationError), "Groq rejected the API key - check GROQ_API_KEY."),
+            (lambda exc: isinstance(exc, groq.RateLimitError), "Groq rate limit exceeded - try again shortly."),
+            (lambda exc: isinstance(exc, groq.APIConnectionError), "Could not reach the Groq API."),
+            (lambda exc: isinstance(exc, groq.APIStatusError), "Groq API error: {exc}"),
+        ]
+    if provider == "gemini":
+        # google-genai reports errors as ClientError/ServerError, both
+        # carrying the HTTP status in `.code` rather than distinct
+        # exception types per status - so auth/rate-limit are distinguished
+        # by code, not by isinstance.
+        from google.genai import errors as gemini_errors
+
+        return [
+            (lambda exc: isinstance(exc, gemini_errors.APIError) and exc.code in (401, 403), "Gemini rejected the API key - check GEMINI_API_KEY."),
+            (lambda exc: isinstance(exc, gemini_errors.APIError) and exc.code == 429, "Gemini rate limit exceeded - try again shortly."),
+            (lambda exc: isinstance(exc, gemini_errors.ServerError), "Could not reach the Gemini API."),
+            (lambda exc: isinstance(exc, gemini_errors.APIError), "Gemini API error: {exc}"),
+        ]
+    raise ValueError(f"Unknown LLM_PROVIDER: {provider!r}")
 
 
 def investigate(description: str) -> IncidentReport:
@@ -49,14 +94,11 @@ def investigate(description: str) -> IncidentReport:
         raise InvestigationTimedOutError(
             f"Investigation did not conclude within {settings.agent_max_iterations} tool-call steps."
         ) from exc
-    except anthropic.AuthenticationError as exc:
-        raise LLMProviderError("Anthropic rejected the API key - check ANTHROPIC_API_KEY.") from exc
-    except anthropic.RateLimitError as exc:
-        raise LLMProviderError("Anthropic rate limit exceeded - try again shortly.") from exc
-    except anthropic.APIConnectionError as exc:
-        raise LLMProviderError("Could not reach the Anthropic API.") from exc
-    except anthropic.APIStatusError as exc:
-        raise LLMProviderError(f"Anthropic API error: {exc}") from exc
+    except Exception as exc:
+        for matches, message in _provider_error_handlers(settings.llm_provider):
+            if matches(exc):
+                raise LLMProviderError(message.format(exc=exc)) from exc
+        raise
 
     report = result.get("structured_response")
     if report is None:

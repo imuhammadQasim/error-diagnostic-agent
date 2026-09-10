@@ -20,10 +20,19 @@ class Settings(BaseSettings):
     environment: Literal["development", "test", "production"] = "development"
     log_level: str = "INFO"
 
-    # --- LLM provider (Anthropic) ---
+    # --- LLM provider (switch via LLM_PROVIDER; only the selected provider's
+    # key is required) ---
+    llm_provider: Literal["anthropic", "groq", "gemini"] = "anthropic"
+    llm_temperature: float = 0.0
+
     anthropic_api_key: str = Field(default="")
     anthropic_model: str = "claude-sonnet-5"
-    llm_temperature: float = 0.0
+
+    groq_api_key: str = Field(default="")
+    groq_model: str = "llama-3.3-70b-versatile"
+
+    gemini_api_key: str = Field(default="")
+    gemini_model: str = "gemini-2.0-flash"
 
     # --- LangSmith tracing ---
     # LangSmith reads LANGSMITH_TRACING / LANGSMITH_API_KEY / LANGSMITH_PROJECT

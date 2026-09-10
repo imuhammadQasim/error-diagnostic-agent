@@ -9,6 +9,8 @@ uvicorn[standard]==0.52.4
 # --- Agent framework (LangChain 1.x current API: langchain.agents.create_agent) ---
 langchain==1.4.0
 langchain-anthropic==1.7.1
+langchain-groq==1.1.3
+langchain-google-genai==4.4.0
 
 # --- Observability ---
 langsmith==0.12.2

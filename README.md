@@ -60,8 +60,10 @@ pip install -r requirements-dev.txt   # includes requirements.txt + test tools
 cp .env.example .env
 ```
 
-Edit `.env` and set `ANTHROPIC_API_KEY` (get one at console.anthropic.com).
-Everything else has a working default.
+Edit `.env`: set `LLM_PROVIDER` to `anthropic`, `groq`, or `gemini`, and fill
+in the matching `*_API_KEY` (Groq and Gemini both have free-tier keys - get
+one at console.groq.com/keys or aistudio.google.com/apikey; Anthropic keys
+are at console.anthropic.com). Everything else has a working default.
 
 ## Running it
 
@@ -111,7 +113,7 @@ curl http://127.0.0.1:8000/api/v1/health
 pytest
 ```
 
-Tests never call the real Anthropic API or make real network requests -
+Tests never call a real LLM provider API or make real network requests -
 external HTTP calls are mocked with `respx`, and the agent/service tests
 stub the LangGraph agent object directly. See `tests/`.
 
