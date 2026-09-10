@@ -22,8 +22,8 @@ class Settings(BaseSettings):
 
     # --- LLM provider (switch via LLM_PROVIDER; only the selected provider's
     # key is required) ---
-    llm_provider: Literal["anthropic", "groq", "gemini"] = "anthropic"
-    llm_temperature: float = 0.0
+    llm_provider: Literal["anthropic", "groq", "gemini"] = "groq"
+    llm_temperature: float = 0.7
 
     anthropic_api_key: str = Field(default="")
     anthropic_model: str = "claude-sonnet-5"
