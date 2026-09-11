@@ -15,6 +15,9 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    # --- Database Config ---
+    DATABASE_URL: str 
+    
     # --- App identity ---
     app_name: str = "Production Incident Investigation Agent"
     environment: Literal["development", "test", "production"] = "development"
