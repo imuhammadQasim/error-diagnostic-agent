@@ -6,11 +6,65 @@ from sqlalchemy import select
 from sqlalchemy.exc import DataError, IntegrityError
 
 from app.models.user import User
-from app.schemas.user import UserCreate, UserCreateResponse, UserResponse
+from app.schemas.user import UserCreate, UserCreateResponse, UserLogin, UserResponse, UserUpdate
 from app.config.database import get_db
-from app.utils.helpers import _hash_password, _generate_email_code
+from app.utils.helpers import _generate_email_code, _hash_password, _verify_password
 from app.services.smtp_email import send_email as smtp_email_sender
 router = APIRouter(prefix="/user", tags=["user"])
+
+
+@router.post('/login', response_model=UserResponse)
+async def login_user(user_data: UserLogin, db: AsyncSession = Depends(get_db)) -> User:
+    user = await db.scalar(select(User).where(User.email == user_data.email))
+    if user is None or not _verify_password(user_data.password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password.",
+        )
+    return user
+
+
+@router.get('/get/{user_id}', response_model=UserResponse)
+async def get_user(user_id: int, db: AsyncSession = Depends(get_db)) -> User:
+    user = await db.scalar(select(User).where(User.id == user_id))
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found.",
+        )
+    return user
+
+
+@router.patch('/patch/{user_id}', response_model=UserResponse)
+async def update_user(
+    user_id: int,
+    user_data: UserUpdate,
+    db: AsyncSession = Depends(get_db),
+) -> User:
+    user = await db.scalar(select(User).where(User.id == user_id))
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found.",
+        )
+
+    user.name = user_data.name
+    await db.commit()
+    await db.refresh(user)
+    return user
+
+
+@router.delete('/delete/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)) -> None:
+    user = await db.scalar(select(User).where(User.id == user_id))
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found.",
+        )
+
+    await db.delete(user)
+    await db.commit()
 
 @router.post('/create', response_model=UserCreateResponse, status_code=201)
 async def create_user(user_data: UserCreate, db: AsyncSession = Depends(get_db)) -> UserCreateResponse:

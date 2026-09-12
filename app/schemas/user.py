@@ -7,6 +7,15 @@ class UserCreate(BaseModel):
     password: str
 
 
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class UserUpdate(BaseModel):
+    name: str
+
+
 class UserResponse(BaseModel):
     id: int
     name: str
