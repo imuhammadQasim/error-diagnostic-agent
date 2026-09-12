@@ -8,8 +8,8 @@ from sqlalchemy.exc import DataError, IntegrityError
 from app.models.user import User
 from app.schemas.user import UserCreate, UserCreateResponse, UserResponse
 from app.config.database import get_db
-from app.utils.helpers import _hash_password
-
+from app.utils.helpers import _hash_password, _generate_email_code
+from app.services.smtp_email import send_email as smtp_email_sender
 router = APIRouter(prefix="/user", tags=["user"])
 
 @router.post('/create', response_model=UserCreateResponse, status_code=201)
@@ -20,20 +20,23 @@ async def create_user(user_data: UserCreate, db: AsyncSession = Depends(get_db))
             status_code=status.HTTP_409_CONFLICT,
             detail="A user with this email already exists.",
         )
-
+    
+    otpcode = _generate_email_code()
     db_user = User(
         name=user_data.name,
         email=user_data.email,
         password_hash=_hash_password(user_data.password),
-        code=None,
+        code=otpcode,
         is_active=False,
         created_at=datetime.now(timezone.utc).replace(tzinfo=None),
     )
     db.add(db_user)
-
+    
     try:
         await db.commit()
         await db.refresh(db_user)
+        await smtp_email_sender(user_data.email, 'Verification account code', otpcode)
+        print('email sent successfully ====>>')
     except (IntegrityError, DataError) as exc:
         await db.rollback()
         message = str(exc).lower()
