@@ -11,7 +11,6 @@ class UserResponse(BaseModel):
     id: int
     name: str
     email: EmailStr
-    password_hash: str
     is_active: bool
     created_at: datetime
 

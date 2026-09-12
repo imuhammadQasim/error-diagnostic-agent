@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 from app.api.v1.router import router as api_v1_router
 from app.config import get_settings
-from app.config.database import check_database_connection
+from app.config.database import check_database_connection, init_db
 
 settings = get_settings()
 
@@ -20,6 +20,7 @@ async def lifespan(app: FastAPI):
     db_connected = await check_database_connection()
     if not db_connected:
         raise RuntimeError("Database connection failed. Exiting.")
+    await init_db()
     yield
     # Shutdown code (if any) can go here
     print("Application shutting down...")
@@ -30,4 +31,13 @@ app = FastAPI(
     description="Investigates production incidents using a LangChain tool-using agent.",
     lifespan=lifespan
 )
+
+@app.get("/")
+def read_root():
+    return {
+        "status": "running",
+        "app_name": settings.app_name,
+        "docs": "/docs"
+    }
+
 app.include_router(api_v1_router)

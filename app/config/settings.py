@@ -59,6 +59,16 @@ class Settings(BaseSettings):
     github_status_url: str = "https://www.githubstatus.com/api/v2/status.json"
     time_api_base_url: str = "https://timeapi.io/api"
     external_api_timeout_seconds: float = 5.0
+    
+    # --- Password hashing ---
+    PASSWORD_HASH_SCHEME: str
+    PASSWORD_HASH_ALGORITHM: str
+    PASSWORD_HASH_ITERATIONS: int
+    
+    # --- SMTP ---
+    SMTP_GMAIL_USERNAME: str # sendder email
+    SMTP_GMAIL_APP_PASSWORD: str #sender email password
+    
 
 
 @lru_cache

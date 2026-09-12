@@ -1,3 +1,5 @@
+import asyncio
+
 from fastapi.testclient import TestClient
 
 from app.main import app
@@ -66,3 +68,22 @@ def test_investigate_endpoint_maps_llm_provider_error_to_502(mocker):
         json={"description": "Payment API started returning 500 errors around 10:30 AM."},
     )
     assert response.status_code == 502
+
+
+def test_init_db_creates_tables(mocker):
+    async def _run():
+        mock_conn = mocker.AsyncMock()
+        mock_conn.run_sync = mocker.AsyncMock()
+        mock_engine = mocker.MagicMock()
+        mock_engine.begin.return_value.__aenter__.return_value = mock_conn
+
+        mocker.patch("app.config.database.engine", mock_engine)
+        from app.config.database import init_db
+
+        await init_db()
+
+        mock_engine.begin.assert_called_once()
+        assert mock_conn.run_sync.call_count == 1
+        assert mock_conn.run_sync.call_args[0][0].__name__ == "create_all"
+
+    asyncio.run(_run())
