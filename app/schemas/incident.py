@@ -6,7 +6,7 @@ class IncidentInvestigateRequest(BaseModel):
         ...,
         min_length=10,
         max_length=2000,
-        description="Free-text incident report, e.g. 'Payment API started returning 500 errors around 10:30 AM'.",
+        description="Payment API started returning 500 errors around 10:30 AM.",
     )
 
 
